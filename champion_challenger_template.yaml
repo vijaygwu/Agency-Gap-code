@@ -1,0 +1,45 @@
+# Champion-challenger evaluation template.
+# Companion for Chapter 10 §10.4 and Appendix B.3 of "The Agency Gap."
+# A minimal config to think with, not a production spec. Field comments
+# explain why each value is here, not just what it is.
+
+champion_challenger:
+  regression_set:
+    path: evals/regression_v1.jsonl
+    size: 200                  # large enough to detect 2pp shifts at the
+                               # 95% level with a reasonable margin.
+    immutable: true            # the regression set never moves; new failures
+                               # become NEW entries, never replacements.
+    last_modified: "2026-04-01"
+
+  drift_set:
+    path: evals/drift_weekly.jsonl
+    refresh_cadence: weekly    # weekly catches most realistic drift; daily
+                               # is only worth it under known-shifting traffic.
+    sample_size: 50
+    source: production_traffic_sampled   # NOT complaint-volume-only; see
+                                         # Chapter 10 §10.8 anti-patterns.
+    scrub: [pii, customer_id]
+
+  gate:
+    metric: accuracy
+    min_margin: 0.02           # challenger must beat champion by >= 2pp;
+                               # smaller margins do not survive noise.
+    min_drift_set_score: 0.85  # a challenger that wins regression but tanks
+                               # drift is overfit to history.
+    blocking_signals:          # any of these blocks promotion regardless of
+                               # the accuracy delta. Structured form so the
+                               # schema is parseable as new signals are added:
+      - metric: refusal_rate_drift
+        threshold: 0.10
+      - metric: latency_p99_drift
+        threshold: 0.20
+
+  rollback:
+    auto_trigger_on:           # production telemetry watched live; if any
+                               # signal trips, revert immediately, do not
+                               # wait for the next weekly eval.
+      - regression_set_score_drop_above: 0.02
+      - production_error_rate_above: 0.05
+    procedure: revert_to_previous_champion
+    notify: oncall_channel

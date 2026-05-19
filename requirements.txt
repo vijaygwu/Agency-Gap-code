@@ -1,0 +1,5 @@
+# Minimal dependencies for the runnable scripts in this directory.
+# Python 3.10+ required.
+
+numpy>=1.24
+scipy>=1.10
