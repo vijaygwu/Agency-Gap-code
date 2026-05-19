@@ -1,5 +1,5 @@
 # Champion-challenger evaluation template.
-# Companion for Chapter 10 §10.4 and Appendix B.3 of "The Agency Gap."
+# Companion for Chapter 10 §10.4 and Appendix B.3 of "Engineering AI Agents."
 # A minimal config to think with, not a production spec. Field comments
 # explain why each value is here, not just what it is.
 

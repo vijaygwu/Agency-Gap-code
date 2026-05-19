@@ -1,7 +1,7 @@
 """Beta-gating sanity check: contrasts a naive empirical-accuracy gate
 against LiSA's Beta-posterior lower-bound gate under simulated label noise.
 
-Runnable companion for Chapter 5 §5.4 and Appendix B.2 of "The Agency Gap."
+Runnable companion for Chapter 5 §5.4 and Appendix B.2 of "Engineering AI Agents."
 Python 3.10+. Dependencies: numpy, scipy.
 
 The check is qualitative: under noisy observations, the Beta lower-bound

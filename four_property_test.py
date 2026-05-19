@@ -1,6 +1,6 @@
 """Four-property test for "is this an agent or a workflow?"
 
-Runnable companion for Chapter 2 §2.2 of "The Agency Gap." Asks four
+Runnable companion for Chapter 2 §2.2 of "Engineering AI Agents." Asks four
 yes/no questions about a candidate system and prints a verdict.
 
 Usage:

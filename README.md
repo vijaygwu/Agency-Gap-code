@@ -1,6 +1,6 @@
-# Companion code for *The Agency Gap*
+# Companion code for *Engineering AI Agents*
 
-Small, runnable companions for the book ***The Agency Gap: Engineering Agents After the Benchmarks Fell*** by Dr. Vijay Raghavan (Agentic AI Series, 2026).
+Small, runnable companions for the book ***Engineering AI Agents: The Agency Gap After the Benchmarks Fell*** by Dr. Vijay Raghavan (Agentic AI Series, 2026).
 
 These are illustrative scripts referenced from Chapter 2, Chapter 5, Chapter 10, and Appendix B. The book's claims rest on the source papers listed in Appendix A; this code shows you the math and gives you templates you can copy into your own infrastructure.
 
@@ -48,7 +48,7 @@ The Beta gate admits fewer items but admits the *right* ones; the pessimism in t
 
 ## About the book
 
-*The Agency Gap* is the fourth book in the Agentic AI Series. It argues that frontier AI's capability ceiling has fallen but the agency ceiling has not, and walks through the four open problems that remain: memory, coordination, deployment-time learning, and governance under autonomy. About 108,000 words, 404 pages, 10 chapters plus appendices.
+*Engineering AI Agents* is the fourth book in the Agentic AI Series. It argues that frontier AI's capability ceiling has fallen but the agency ceiling has not, and walks through the four open problems that remain: memory, coordination, deployment-time learning, and governance under autonomy. About 108,000 words, 404 pages, 10 chapters plus appendices.
 
 - **Author:** Dr. Vijay Raghavan
 - **Contact:** vijayrag@gwu.edu
