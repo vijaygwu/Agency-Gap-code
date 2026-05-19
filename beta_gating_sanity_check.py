@@ -10,6 +10,7 @@ threshold, but with a much lower false-admit rate. The pessimism is the
 point.
 """
 import argparse
+import json
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.stats import beta
@@ -71,6 +72,11 @@ def parse_args() -> argparse.Namespace:
                         help="Gate threshold; LiSA paper default 0.55.")
     parser.add_argument("--trials", type=_positive_int, default=10,
                         help="Observations per rule used to derive s, c.")
+    parser.add_argument("--json", action="store_true", default=False,
+                        dest="json_output",
+                        help="Emit a single-line JSON object on stdout "
+                             "instead of human-readable text. Useful for "
+                             "machine-parseable CI logs.")
     return parser.parse_args()
 
 
@@ -105,10 +111,39 @@ def main(args: argparse.Namespace) -> None:
             return 0.0
         return float((admitted & bad_rule).sum() / admitted.sum())
 
-    print(f"Naive accuracy gate: admit={admit_rate(naive_gate):.2%}, "
-          f"false-admit={false_admit_rate(naive_gate):.2%}")
-    print(f"Beta lower-bound gate: admit={admit_rate(beta_gate):.2%}, "
-          f"false-admit={false_admit_rate(beta_gate):.2%}")
+    naive_admit = admit_rate(naive_gate)
+    naive_false_admit = false_admit_rate(naive_gate)
+    beta_admit = admit_rate(beta_gate)
+    beta_false_admit = false_admit_rate(beta_gate)
+
+    if args.json_output:
+        # Single-line JSON on stdout: parseable by CI tooling. Seed is
+        # echoed so a failing run can be replayed deterministically.
+        payload = {
+            "seed": args.seed,
+            "n_items": n_items,
+            "noise": args.noise,
+            "threshold": threshold,
+            "trials": args.trials,
+            "naive_gate": {
+                "admit_rate": round(naive_admit, 4),
+                "false_admit_rate": round(naive_false_admit, 4),
+            },
+            "beta_gate": {
+                "admit_rate": round(beta_admit, 4),
+                "false_admit_rate": round(beta_false_admit, 4),
+            },
+        }
+        print(json.dumps(payload))
+        return
+
+    # Seed printed first so it appears even when the human-readable
+    # output is captured in a log; lets practitioners replay a run.
+    print(f"Seed: {args.seed}")
+    print(f"Naive accuracy gate: admit={naive_admit:.2%}, "
+          f"false-admit={naive_false_admit:.2%}")
+    print(f"Beta lower-bound gate: admit={beta_admit:.2%}, "
+          f"false-admit={beta_false_admit:.2%}")
 
 
 if __name__ == "__main__":

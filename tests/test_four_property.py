@@ -1,10 +1,4 @@
 """Unit tests for the four-property classifier (Chapter 2 §2.2)."""
-import sys
-from pathlib import Path
-
-# Allow tests/ to import the sibling module without packaging.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 from four_property_test import (
     CANONICAL_VERDICTS,
     FourPropertyAnswer,
@@ -12,12 +6,12 @@ from four_property_test import (
 )
 
 
-def test_all_properties_true_is_agent():
+def test_all_properties_true_is_agent() -> None:
     a = FourPropertyAnswer(True, True, True, True)
     assert classify(a) == "agent"
 
 
-def test_canonical_named_patterns():
+def test_canonical_named_patterns() -> None:
     name_index = {
         "persistent_state": 0,
         "tool_access": 1,
@@ -32,7 +26,7 @@ def test_canonical_named_patterns():
         assert classify(a) == expected_verdict
 
 
-def test_non_canonical_returns_missing_list():
+def test_non_canonical_returns_missing_list() -> None:
     a = FourPropertyAnswer(False, False, False, True)
     verdict = classify(a)
     assert verdict.startswith("not an agent: missing")

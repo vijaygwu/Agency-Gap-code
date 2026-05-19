@@ -27,6 +27,11 @@ champion_challenger:
                                # smaller margins do not survive noise.
     min_drift_set_score: 0.85  # a challenger that wins regression but tanks
                                # drift is overfit to history.
+    promotion_signoff:        # who signs off when a challenger is promoted
+      primary_owner: <slack-handle or rotation-name>
+      backup_owner: <slack-handle>      # paged when primary is unreachable
+                                        # named owners survive personnel
+                                        # changes better than "the team"
     blocking_signals:          # any of these blocks promotion regardless of
                                # the accuracy delta. Structured form so the
                                # schema is parseable as new signals are added:
@@ -42,4 +47,9 @@ champion_challenger:
       - regression_set_score_drop_above: 0.02
       - production_error_rate_above: 0.05
     procedure: revert_to_previous_champion
+    rollback_test_cadence:   # last time we rehearsed the revert in staging
+      last_tested: "2026-04-15"
+      max_age_days: 30       # if last_tested is older than this, fail the
+                             # next promotion gate. An untested rollback
+                             # is not a rollback (Appendix E §E.1 item 5).
     notify: oncall_channel
